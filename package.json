@@ -1,0 +1,16 @@
+{
+  "name": "artraw-website",
+  "version": "1.0.0",
+  "description": "ARTRAW — Umesh Kumar | AI • Automation • Creative • Digital Solutions",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,jsx --max-warnings 0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "eslint": "^9.9.0"
+  }
+}
