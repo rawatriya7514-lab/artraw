@@ -299,7 +299,7 @@ function renderCreativeCards(works) {
           <video class="creative-media" src="${work.mediaUrl}" poster="${work.posterUrl || work.thumbUrl}" muted playsinline preload="metadata" aria-hidden="true"></video>
           <button class="play-overlay" aria-label="Play video preview">${getIcon('play')}</button>
         ` : `
-          <img class="creative-media" src="${work.thumbUrl}" alt="" loading="lazy" width="400" height="300">
+          <img class="creative-media" src="${work.thumbUrl}" alt="${escapeHtml(work.title)}" loading="lazy" width="400" height="300">
         `}
         <div class="creative-card-overlay">
           <button class="btn btn-primary btn-sm lightbox-trigger" data-work-id="${work.id}" aria-label="View full size">
