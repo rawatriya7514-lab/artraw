@@ -4,4 +4,4 @@ dist/
 *.log
 .env*.local
 .env
-public/assets/images/album-yoo/
+assets-src/
