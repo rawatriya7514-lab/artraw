@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://artraw.dev/sitemap.xml
+Sitemap: https://rawatriya7514-lab.github.io/artraw/sitemap.xml
