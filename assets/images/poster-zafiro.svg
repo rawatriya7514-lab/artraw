@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="zafiro-glow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FF1E42" stop-opacity="0.25"/>
+      <stop offset="45%" stop-color="#FF007F" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#070709" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="red-crystal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1E42"/>
+      <stop offset="50%" stop-color="#FF007F"/>
+      <stop offset="100%" stop-color="#00F0FF"/>
+    </linearGradient>
+    <filter id="red-bloom" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="#070709"/>
+  <rect width="800" height="600" fill="url(#zafiro-glow)"/>
+
+  <!-- Geometric Grid Matrix -->
+  <g opacity="0.08" stroke="#FF1E42" stroke-width="1">
+    <circle cx="400" cy="280" r="120"/>
+    <circle cx="400" cy="280" r="220"/>
+    <circle cx="400" cy="280" r="320"/>
+    <line x1="0" y1="280" x2="800" y2="280"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <line x1="120" y1="0" x2="680" y2="560"/>
+    <line x1="680" y1="0" x2="120" y2="560"/>
+  </g>
+
+  <!-- Title Annotations -->
+  <text x="40" y="50" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#FF1E42" letter-spacing="3" opacity="0.9">03 // CREATIVE TECHNOLOGY & GENERATIVE SHADERS</text>
+  <text x="760" y="50" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#FFFFFF" letter-spacing="2" text-anchor="end" opacity="0.8">ZAFIRO EXPERIMENTAL</text>
+
+  <!-- Central Faceted 3D Crystal / Polyhedron -->
+  <g transform="translate(400, 275)" filter="url(#red-bloom)">
+    <!-- Rotating Ring -->
+    <ellipse cx="0" cy="0" rx="200" ry="85" fill="none" stroke="#FF1E42" stroke-width="1.5" stroke-dasharray="6,8" opacity="0.4" transform="rotate(-25)"/>
+    <ellipse cx="0" cy="0" rx="230" ry="95" fill="none" stroke="#00F0FF" stroke-width="1" opacity="0.3" transform="rotate(35)"/>
+
+    <!-- 3D Crystalline Facets -->
+    <polygon points="0,-160 -110,-40 0,60" fill="rgba(255,30,66,0.3)" stroke="#FF1E42" stroke-width="1.5"/>
+    <polygon points="0,-160 110,-40 0,60" fill="rgba(255,0,127,0.4)" stroke="#FF007F" stroke-width="1.5"/>
+    <polygon points="0,-160 -110,-40 -150,-10" fill="rgba(255,30,66,0.15)" stroke="#FF1E42" stroke-width="1"/>
+    <polygon points="0,-160 110,-40 150,-10" fill="rgba(0,240,255,0.2)" stroke="#00F0FF" stroke-width="1"/>
+
+    <polygon points="-110,-40 0,60 0,160 -110,60" fill="rgba(255,30,66,0.5)" stroke="#FF1E42" stroke-width="1.5"/>
+    <polygon points="110,-40 0,60 0,160 110,60" fill="rgba(0,240,255,0.35)" stroke="#00F0FF" stroke-width="1.5"/>
+    <polygon points="-150,-10 -110,-40 -110,60 -140,80" fill="rgba(255,0,127,0.2)" stroke="#FF007F" stroke-width="1"/>
+    <polygon points="150,-10 110,-40 110,60 140,80" fill="rgba(255,30,66,0.25)" stroke="#FF1E42" stroke-width="1"/>
+
+    <!-- Inner Core Orb -->
+    <circle cx="0" cy="10" r="30" fill="url(#red-crystal-grad)" opacity="0.85" filter="url(#red-bloom)"/>
+    <circle cx="0" cy="10" r="10" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Left Technical HUD -->
+  <g transform="translate(60, 160)">
+    <rect width="180" height="180" rx="12" fill="rgba(13,13,18,0.85)" stroke="rgba(255,30,66,0.3)" stroke-width="1"/>
+    <text x="18" y="28" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#FF1E42" font-weight="bold">CANVAS / GLSL</text>
+    <text x="18" y="55" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">FRAME_RATE: <tspan fill="#22C55E">60 FPS</tspan></text>
+    <text x="18" y="75" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">VERTICES: <tspan fill="#FFFFFF">14,820</tspan></text>
+    <text x="18" y="95" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">SHADER: <tspan fill="#00F0FF">IRIDESCENT_3D</tspan></text>
+    <text x="18" y="115" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">DISPERSION: <tspan fill="#FF007F">0.84</tspan></text>
+    <line x1="18" y1="130" x2="162" y2="130" stroke="rgba(255,255,255,0.1)"/>
+    <text x="18" y="152" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#FF1E42">● LIVE GENERATIVE</text>
+  </g>
+
+  <!-- Right Creative Metadata -->
+  <g transform="translate(560, 160)">
+    <rect width="180" height="180" rx="12" fill="rgba(13,13,18,0.85)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    <text x="18" y="28" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#FFFFFF" font-weight="bold">STUDIO DIRECTION</text>
+    <text x="18" y="55" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">PROJECT: <tspan fill="#FF1E42">ZAFIRO</tspan></text>
+    <text x="18" y="75" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">DISCIPLINE: <tspan fill="#FFFFFF">CREATIVE TECH</tspan></text>
+    <text x="18" y="95" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">MEDIUM: <tspan fill="#00F0FF">WEBGL / CODE</tspan></text>
+    <text x="18" y="115" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#A1A1AA">AUTHOR: <tspan fill="#FFFFFF">UMESH KUMAR</tspan></text>
+    <line x1="18" y1="130" x2="162" y2="130" stroke="rgba(255,255,255,0.1)"/>
+    <text x="18" y="152" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#00F0FF">● ARTRAW CONCEPT</text>
+  </g>
+
+  <!-- Bottom Banner -->
+  <rect x="40" y="525" width="720" height="42" rx="8" fill="rgba(13,13,18,0.9)" stroke="rgba(255,30,66,0.3)" stroke-width="1"/>
+  <text x="60" y="551" font-family="'Outfit', sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">ZAFIRO // GENERATIVE DIGITAL ART & CREATIVE SYSTEMS</text>
+  <text x="740" y="551" font-family="'IBM Plex Mono', monospace" font-size="11" fill="#FF1E42" text-anchor="end" letter-spacing="2">AUTHENTIC CONCEPT</text>
+</svg>
