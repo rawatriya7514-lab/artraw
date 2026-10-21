@@ -5,11 +5,11 @@ window.scrollTo=()=>{}; window.HTMLElement.prototype.scrollIntoView=()=>{};
 window.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){},addListener(){},removeListener(){}});
 class IO{observe(){}unobserve(){}disconnect(){}takeRecords(){return[];}}
 window.IntersectionObserver=IO; window.ResizeObserver=class{observe(){}unobserve(){}disconnect(){}};
-const raf=cb=>setTimeout(()=>cb(Date.now()),0); window.requestAnimationFrame=raf;
-for(const k of ['document','HTMLElement','Element','Node','DOMParser','Event','MouseEvent','KeyboardEvent','getComputedStyle','history','HTMLAnchorElement','FormData','Image','SVGElement','DocumentFragment','NodeFilter','XMLSerializer','navigator','CSS','URLSearchParams','location'])
+const raf=cb=>setTimeout(()=>cb(Date.now()),0); window.requestAnimationFrame=raf; window.cancelAnimationFrame=id=>clearTimeout(id);
+for(const k of ['document','HTMLElement','Element','Node','DOMParser','Event','MouseEvent','KeyboardEvent','getComputedStyle','history','HTMLAnchorElement','FormData','Image','SVGElement','DocumentFragment','NodeFilter','XMLSerializer','navigator','CSS','URLSearchParams','location','sessionStorage'])
  try{Object.defineProperty(globalThis,k,{value:window[k],configurable:true,writable:true});}catch{}
 Object.defineProperty(globalThis,'window',{value:window,configurable:true,writable:true});
-globalThis.IntersectionObserver=IO; globalThis.matchMedia=window.matchMedia; globalThis.requestAnimationFrame=raf;
+globalThis.IntersectionObserver=IO; globalThis.matchMedia=window.matchMedia; globalThis.requestAnimationFrame=raf; globalThis.cancelAnimationFrame=window.cancelAnimationFrame;
 const doc=window.document; const errs=[]; process.on('uncaughtException',e=>errs.push(e.stack||e.message));
 await import('./src/main.js');
 await new Promise(r=>setTimeout(r,400));
@@ -29,7 +29,7 @@ console.log('description prefilled:',(main().querySelector('#description')?.valu
 // check placeholder handling
 const sendBtn=main().querySelector('#brief-send');
 const copyBtn=main().querySelector('#brief-copy');
-console.log('send button present:',!!sendBtn,'(should be false — no email configured)');
+console.log('send button present:',!!sendBtn,'(CONTACT_READY should be true — email configured)');
 console.log('copy button present:',!!copyBtn);
 console.log('aside email shows:',main().querySelector('.aside-details dd')?.textContent.trim());
 console.log('aside note:',main().querySelector('.aside-note')?.textContent.trim().slice(0,80));
@@ -45,3 +45,4 @@ await wait(300);
 console.log('review open:',!main().querySelector('#brief-review').hidden);
 console.log('review body:',main().querySelector('.brief-review-body')?.textContent.trim().slice(0,90));
 console.log('ERRORS:',errs.length?errs.slice(0,2):'none');
+process.exit(errs.length ? 1 : 0);

@@ -1,3 +1,16 @@
+/**
+ * ARTRAW — Studio Footer
+ *
+ * Real-time IST digital clock, live system status, structured navigation,
+ * and high-end editorial branding.
+ */
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { revealOnEnter } from '../utils/scroll.js';
+
+gsap.registerPlugin(ScrollTrigger);
+
 export function createFooter() {
   const footer = document.createElement('footer');
   footer.className = 'footer';
@@ -6,40 +19,126 @@ export function createFooter() {
 
   footer.innerHTML = `
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="footer-logo" data-route="home" aria-label="ARTRAW home">
-            <span>ARTRAW</span>
-          </a>
-          <p class="footer-tagline">Umesh Kumar — Creative • Digital • Technology.</p>
+      <!-- Live Status & Local Time Strip -->
+      <div class="footer-top-strip reveal">
+        <div class="footer-status-pill">
+          <span class="status-indicator-dot"></span>
+          <span>SYSTEM STATUS: OPERATIONAL</span>
         </div>
-        <nav class="footer-nav" aria-label="Explore">
-          <h3 class="footer-column-title">Explore</h3>
+        <div class="footer-time-pill" id="footer-ist-clock">
+          <span class="clock-icon">🕒</span>
+          <span id="footer-ist-time">India (IST): --:--:--</span>
+        </div>
+      </div>
+
+      <div class="footer-inner">
+        <div class="footer-brand reveal">
+          <a href="/" class="footer-logo" data-route="home" aria-label="ARTRAW home">
+            <span class="brand-monogram">
+              <svg class="footer-brand-avatar" width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 50%; border: 1px solid var(--color-accent-red);">
+                <rect width="32" height="32" rx="7" fill="#070709"/>
+                <path d="M8 23 L16 7 L24 23" fill="none" stroke="#ff2d4a" stroke-width="2"/>
+                <path d="M11 18 H21" stroke="#3ee0ff" stroke-width="2"/>
+              </svg>
+            </span>
+            <span class="brand-name">ARTRAW</span>
+          </a>
+          <p class="footer-tagline">
+            ARTRAW — AI Architecture, Creative Engineering & Digital Solutions.
+          </p>
+          <p class="footer-subtext">
+            Autonomous agent workflows, native Android engineering, and uncompromising visual systems.
+          </p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Navigation">
+          <h3 class="footer-column-title">Architecture</h3>
           <ul class="footer-links">
-            <li><a href="#about" class="footer-link">About</a></li>
-            <li><a href="/services" class="footer-link" data-route="true">Services</a></li>
-            <li><a href="#skills" class="footer-link">Capabilities</a></li>
-            <li><a href="/work" class="footer-link" data-route="true">Selected work</a></li>
+            <li><a href="#about" class="footer-link">The Studio</a></li>
+            <li><a href="/services" class="footer-link" data-route="true">Services & Specs</a></li>
+            <li><a href="#flagship" class="footer-link">Featured Motion</a></li>
+            <li><a href="/work" class="footer-link" data-route="true">Selected Work</a></li>
           </ul>
         </nav>
-        <nav class="footer-nav" aria-label="Work with ARTRAW">
-          <h3 class="footer-column-title">Work with me</h3>
+
+        <nav class="footer-nav" aria-label="Direct Contact">
+          <h3 class="footer-column-title">Direct Contact</h3>
           <ul class="footer-links">
-            <li><a href="#process" class="footer-link">Process</a></li>
-            <li><a href="/contact" class="footer-link" data-route="true">Start a Project</a></li>
-            <li><a href="#creative" class="footer-link">Creative work</a></li>
+            <li><a href="mailto:rawateditzz@gmail.com" class="footer-link">rawateditzz@gmail.com</a></li>
+            <li><a href="tel:9315878751" class="footer-link">+91 9315878751</a></li>
+            <li><a href="https://wa.me/919315878751" target="_blank" rel="noopener noreferrer" class="footer-link">WhatsApp: 9315878751</a></li>
+            <li><a href="https://github.com/rawatriya7514-lab" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub Profile</a></li>
           </ul>
         </nav>
       </div>
+
       <div class="footer-bottom">
-        <p class="footer-copyright">&copy; ${year} Umesh Kumar — ARTRAW.</p>
+        <p class="footer-copyright">&copy; ${year} ARTRAW. All rights reserved.</p>
         <ul class="footer-legal">
-          <li><a href="/privacy" class="footer-link" data-route="true">Privacy</a></li>
-          <li><a href="/terms" class="footer-link" data-route="true">Terms</a></li>
+          <li><a href="/privacy" class="footer-link" data-route="true">Privacy Policy</a></li>
+          <li><a href="/terms" class="footer-link" data-route="true">Terms of Service</a></li>
         </ul>
       </div>
     </div>
   `;
 
   return footer;
+}
+
+export function initFooter(footer) {
+  if (!footer || typeof window === 'undefined') return { destroy() {} };
+
+  const revealEls = Array.from(footer.querySelectorAll('.reveal'));
+  const clockEl = footer.querySelector('#footer-ist-time');
+
+  let clockInterval = null;
+
+  function updateClock() {
+    try {
+      const now = new Date();
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        hour12: true,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const timeStr = now.toLocaleTimeString('en-US', options);
+      if (clockEl) {
+        clockEl.textContent = `Remote · India (IST): ${timeStr} · UTC+5:30`;
+      }
+    } catch {
+      if (clockEl) clockEl.textContent = `Remote · India (IST / UTC+5:30)`;
+    }
+  }
+
+  updateClock();
+  clockInterval = setInterval(updateClock, 1000);
+
+  ScrollTrigger.getAll().forEach((t) => {
+    if (t.trigger && footer.contains(t.trigger)) t.kill();
+  });
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let killReveal = () => {};
+
+  if (!prefersReduced) {
+    killReveal = revealOnEnter(revealEls, { once: true, start: 'top 88%', stagger: 0.05 });
+  } else {
+    revealEls.forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+
+  return {
+    destroy() {
+      if (clockInterval) clearInterval(clockInterval);
+      killReveal();
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.trigger && footer.contains(t.trigger)) t.kill();
+      });
+      gsap.set(revealEls, { clearProps: 'opacity,y,transform' });
+    },
+  };
 }

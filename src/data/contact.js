@@ -910,7 +910,7 @@ export const faqs = [
     questions: [
       {
         q: 'What does ARTRAW do?',
-        a: 'ARTRAW (Umesh Kumar) builds AI systems, automation pipelines, custom software, and creative digital experiences. Services span AI/ML, Android/Linux automation, web development, e-commerce, design, photography, video, music visuals, and digital assistance for businesses and creators.'
+        a: 'ARTRAW builds AI systems, automation pipelines, custom software, and creative digital experiences. Services span AI/ML, Android/Linux automation, web development, e-commerce, design, photography, video, music visuals, and digital assistance for businesses and creators.'
       },
       {
         q: 'How do I start a project?',
@@ -1045,27 +1045,26 @@ export const disclaimers = {
  * Set the real values here (or set CONTACT_EMAIL to null) to go live.
  */
 export const contactConfig = {
-  // Set to a real address to enable the mailto hand-off. null = mailto disabled,
-  // the form then tells the visitor to copy the brief instead.
-  email: null,
-  emailIsPlaceholder: true,
+  email: 'rawateditzz@gmail.com',
+  emailIsPlaceholder: false,
 
-  // Display-only. These are not linked anywhere until they are real.
-  whatsapp: null,
-  location: 'Remote / India',
+  phone: '+91 9315878751',
+  phoneRaw: '9315878751',
+  whatsapp: '+91 9315878751',
+  whatsappRaw: '9315878751',
+  location: 'Remote · India',
   timezone: 'IST (UTC+5:30)',
 
-  // Social handles: shown as placeholders only, never rendered as links.
   social: {
-    github: null,
+    github: 'https://github.com/rawatriya7514-lab',
     twitter: null,
     linkedin: null,
     instagram: null,
-    youtube: null
+    youtube: 'https://youtube.com/@artraweditz'
   }
 };
 
-export const CONTACT_READY = Boolean(contactConfig.email && !contactConfig.emailIsPlaceholder);
+export const CONTACT_READY = true;
 
 export function getServiceLabel(categoryId, serviceId) {
   const cat = getCategoryById(categoryId);

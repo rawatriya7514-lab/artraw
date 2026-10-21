@@ -1,9 +1,13 @@
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getIcon } from '../utils/icons.js';
 import {
   serviceCategories,
   searchServicesSorted,
   getAllServices
 } from '../data/services.js';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const PAGE_SIZE = 12;
 const GROUP_PAGE_SIZE = 6;
@@ -35,7 +39,7 @@ function truncate(text, limit) {
 
 export function createServicesPage() {
   const section = document.createElement('section');
-  section.className = 'services-page';
+  section.className = 'services-page cinematic-page';
   section.id = 'services-page';
   section.setAttribute('aria-labelledby', 'services-page-title');
 
@@ -43,16 +47,16 @@ export function createServicesPage() {
 
   section.innerHTML = `
     <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">Services</span>
-        <h1 id="services-page-title" class="section-title">Services Catalog</h1>
-        <p class="section-description">
+      <header class="services-hero reveal">
+        <span class="services-kicker reveal">Services</span>
+        <h1 id="services-page-title" class="services-title reveal">Services Catalog</h1>
+        <p class="services-description reveal">
           ${totalServices} services across ${serviceCategories.length} categories. Search or filter to narrow
           the list—each service covers description, what ARTRAW helps with, what you provide, and what you receive.
         </p>
       </header>
 
-      <div class="services-toolbar reveal reveal-delay-1" role="search" aria-label="Service search and filter">
+      <div class="services-toolbar reveal" role="search" aria-label="Service search and filter">
         <div class="search-wrapper">
           ${getIcon('search')}
           <input
@@ -122,8 +126,8 @@ export function createServicesPage() {
       </div>
     </div>
 
-    <div class="service-modal-overlay" id="service-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
-      <div class="service-modal" role="document">
+    <div class="service-modal-overlay cinematic-modal" id="service-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+      <div class="service-modal cinematic-modal-panel" role="document">
         <button class="modal-close" aria-label="Close modal">${getIcon('close')}</button>
         <div class="modal-content" id="modal-content"></div>
       </div>
@@ -135,9 +139,9 @@ export function createServicesPage() {
 
 function serviceCard(svc, index) {
   return `
-    <article class="service-card reveal reveal-delay-${(index % 6) + 1}" data-service-id="${svc.id}" data-category="${svc.categoryId}">
+    <article class="service-card cinematic-card reveal" data-service-id="${svc.id}" data-category="${svc.categoryId}" style="--reveal-delay:${(index % 6) * 80}ms">
       <div class="service-card-header">
-        <span class="service-category-tag" style="--accent-color: var(--color-accent-${svc.categoryAccent});">
+        <span class="service-category-tag cinematic-tag" style="--accent-color: var(--color-accent-${svc.categoryAccent});">
           ${getIcon(svc.categoryIcon)}
           <span class="tag-label">${svc.categoryLabel}</span>
         </span>
@@ -163,7 +167,7 @@ function serviceCard(svc, index) {
 
 function serviceRow(svc) {
   return `
-    <li class="service-row" data-service-id="${svc.id}" data-category="${svc.categoryId}">
+    <li class="service-row cinematic-row" data-service-id="${svc.id}" data-category="${svc.categoryId}">
       <button class="service-row-main service-detail-btn" data-service-id="${svc.id}" aria-expanded="false">
         <span class="service-row-title">${escapeHtml(svc.title)}</span>
         <span class="service-row-desc">${escapeHtml(truncate(svc.description, 96))}</span>
@@ -181,9 +185,9 @@ function serviceRow(svc) {
 function categoryGroup(cat, services, totalInCategory) {
   const hidden = Math.max(0, (totalInCategory ?? services.length) - services.length);
   return `
-    <section class="service-group reveal" data-group="${cat.id}" aria-labelledby="group-title-${cat.id}">
-      <header class="service-group-header">
-        <span class="service-group-icon" style="--accent-color: var(--color-accent-${cat.accent});" aria-hidden="true">
+    <section class="service-group cinematic-group reveal" data-group="${cat.id}" aria-labelledby="group-title-${cat.id}" style="--reveal-delay:120ms">
+      <header class="service-group-header cinematic-group-header">
+        <span class="service-group-icon cinematic-group-icon" style="--accent-color: var(--color-accent-${cat.accent});" aria-hidden="true">
           ${getIcon(cat.icon)}
         </span>
         <div class="service-group-text">
@@ -220,43 +224,43 @@ function renderModalContent(svc) {
   const accentColor = `var(--color-accent-${svc.categoryAccent})`;
 
   return `
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="0">
-      <div class="modal-header">
-        <span class="modal-category" style="color: ${accentColor};">
+    <div class="modal-panel cinematic-modal-panel-inner" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="0">
+      <div class="modal-header cinematic-modal-header">
+        <span class="modal-category cinematic-modal-category" style="color: ${accentColor};">
           ${getIcon(svc.categoryIcon)} ${escapeHtml(svc.categoryLabel)}
         </span>
-        <h2 id="modal-title" class="modal-title">${escapeHtml(svc.title)}</h2>
+        <h2 id="modal-title" class="modal-title cinematic-modal-title">${escapeHtml(svc.title)}</h2>
       </div>
 
-      <div class="modal-body">
-        <section class="modal-section">
+      <div class="modal-body cinematic-modal-body">
+        <section class="modal-section cinematic-modal-section">
           <h3>Description</h3>
           <p>${escapeHtml(svc.description)}</p>
         </section>
 
-        <section class="modal-section">
+        <section class="modal-section cinematic-modal-section">
           <h3>What ARTRAW helps with</h3>
-          <ul class="modal-list">
+          <ul class="modal-list cinematic-modal-list">
             ${svc.helpsWith.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
           </ul>
         </section>
 
-        <section class="modal-section">
+        <section class="modal-section cinematic-modal-section">
           <h3>What you'll need to provide</h3>
-          <ul class="modal-list">
+          <ul class="modal-list cinematic-modal-list">
             ${svc.requirements.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
           </ul>
         </section>
 
-        <section class="modal-section">
+        <section class="modal-section cinematic-modal-section">
           <h3>What you'll receive</h3>
-          <ul class="modal-list">
+          <ul class="modal-list cinematic-modal-list">
             ${svc.deliverables.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
           </ul>
         </section>
 
         ${hasAssistanceDisclaimer(svc.categoryId) ? `
-          <section class="modal-section modal-disclaimer">
+          <section class="modal-section modal-disclaimer cinematic-modal-disclaimer">
             <h3>Important note</h3>
             <p>
               This service covers <strong>process, application, and documentation assistance only</strong>.
@@ -269,7 +273,7 @@ function renderModalContent(svc) {
         ` : ''}
 
         ${svc.categoryId === 'food-local-business' ? `
-          <section class="modal-section modal-disclaimer">
+          <section class="modal-section modal-disclaimer cinematic-modal-disclaimer">
             <h3>Platform note</h3>
             <p>
               This is <strong>listing and setup assistance</strong> for platforms such as Zomato and Swiggy.
@@ -281,7 +285,7 @@ function renderModalContent(svc) {
         ` : ''}
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer cinematic-modal-footer">
         <button class="btn btn-primary modal-cta" data-service-id="${svc.id}">
           Start a Project
           ${getIcon('arrowRight')}
@@ -485,18 +489,29 @@ export function initServicesPage(pageElement) {
     revealObserver?.disconnect();
     const nodes = resultsRoot.querySelectorAll('.reveal');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      nodes.forEach(el => el.classList.add('visible'));
+      nodes.forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
       return;
     }
-    revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    gsap.set(nodes, { opacity: 0, y: 20 });
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          gsap.to(entry.target, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            delay: parseFloat(entry.target.style.getPropertyValue('--reveal-delay') || '0') / 1000,
+            once: true,
+          });
           revealObserver.unobserve(entry.target);
         }
       });
     }, { rootMargin: '0px 0px -40px 0px' });
-    nodes.forEach(el => revealObserver.observe(el));
+    nodes.forEach((el) => revealObserver.observe(el));
   }
 
   function applyFilters() {
@@ -597,10 +612,24 @@ export function initServicesPage(pageElement) {
     modalOverlay.hidden = false;
     document.body.style.overflow = 'hidden';
 
-    requestAnimationFrame(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       modalOverlay.classList.add('visible');
       modalContent.querySelector('.modal-panel')?.focus();
-    });
+    } else {
+      gsap.fromTo(modalOverlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+      gsap.fromTo(
+        modalContent.querySelector('.modal-panel'),
+        { opacity: 0, y: 20, scale: 0.98 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power3.out',
+          onComplete: () => modalContent.querySelector('.modal-panel')?.focus(),
+        }
+      );
+    }
 
     activePanel = modalContent.querySelector('.modal-panel');
     const closeBtn = modalContent.querySelector('.modal-close-btn, .modal-close');
@@ -617,9 +646,9 @@ export function initServicesPage(pageElement) {
 
   function closeModal() {
     if (!modalOverlay || modalOverlay.hidden) return;
-    modalOverlay.classList.remove('visible');
     document.body.style.overflow = '';
-    setTimeout(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      modalOverlay.classList.remove('visible');
       modalOverlay.hidden = true;
       modalOverlay.classList.remove('visible');
       modalContent.innerHTML = '';
@@ -627,7 +656,22 @@ export function initServicesPage(pageElement) {
       activePanel = null;
       if (lastFocusedEl && document.contains(lastFocusedEl)) lastFocusedEl.focus();
       lastFocusedEl = null;
-    }, 300);
+    } else {
+      gsap.to(modalOverlay, {
+        opacity: 0,
+        duration: 0.25,
+        ease: 'power2.in',
+        onComplete: () => {
+          modalOverlay.classList.remove('visible');
+          modalOverlay.hidden = true;
+          modalContent.innerHTML = '';
+          activeServiceId = null;
+          activePanel = null;
+          if (lastFocusedEl && document.contains(lastFocusedEl)) lastFocusedEl.focus();
+          lastFocusedEl = null;
+        },
+      });
+    }
   }
 
   function handleModalKeydown(event) {
@@ -678,6 +722,22 @@ export function initServicesPage(pageElement) {
   updateFilterChips();
   updateSegmentButtons();
   render();
+
+  // Page-entry reveal for header and toolbar
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const header = pageElement.querySelector('.services-hero');
+    const toolbar = pageElement.querySelector('.services-toolbar');
+    if (header || toolbar) {
+      gsap.set([header, toolbar].filter(Boolean), { opacity: 0, y: 30 });
+      gsap.to([header, toolbar].filter(Boolean), {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      });
+    }
+  }
 
   return {
     destroy() {

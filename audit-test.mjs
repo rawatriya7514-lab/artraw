@@ -6,11 +6,11 @@ window.scrollTo=()=>{}; window.HTMLElement.prototype.scrollIntoView=()=>{};
 window.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){},addListener(){},removeListener(){}});
 class IO{observe(){}unobserve(){}disconnect(){}takeRecords(){return[];}}
 window.IntersectionObserver=IO; window.ResizeObserver=class{observe(){}unobserve(){}disconnect(){}};
-const raf=cb=>setTimeout(()=>cb(Date.now()),0); window.requestAnimationFrame=raf;
-for(const k of ['document','HTMLElement','Element','Node','DOMParser','Event','MouseEvent','KeyboardEvent','getComputedStyle','history','HTMLAnchorElement','FormData','Image','SVGElement','DocumentFragment','NodeFilter','XMLSerializer','navigator','CSS','URLSearchParams','location'])
+const raf=cb=>setTimeout(()=>cb(Date.now()),0); window.requestAnimationFrame=raf; window.cancelAnimationFrame=id=>clearTimeout(id);
+for(const k of ['document','HTMLElement','Element','Node','DOMParser','Event','MouseEvent','KeyboardEvent','getComputedStyle','history','HTMLAnchorElement','FormData','Image','SVGElement','DocumentFragment','NodeFilter','XMLSerializer','navigator','CSS','URLSearchParams','location','sessionStorage'])
  try{Object.defineProperty(globalThis,k,{value:window[k],configurable:true,writable:true});}catch{}
 Object.defineProperty(globalThis,'window',{value:window,configurable:true,writable:true});
-globalThis.IntersectionObserver=IO; globalThis.matchMedia=window.matchMedia; globalThis.requestAnimationFrame=raf;
+globalThis.IntersectionObserver=IO; globalThis.matchMedia=window.matchMedia; globalThis.requestAnimationFrame=raf; globalThis.cancelAnimationFrame=window.cancelAnimationFrame;
 const doc=window.document; const errs=[]; process.on('uncaughtException',e=>errs.push(e.stack||e.message));
 await import('./src/main.js');
 await new Promise(r=>setTimeout(r,400));
@@ -29,7 +29,7 @@ console.log('skip link:',!!doc.querySelector('.skip-link'));
 // every internal link resolves
 const bad=[];
 doc.querySelectorAll('a[href^="/"]').forEach(a=>{
-  const p=a.getAttribute('href').split('?')[0];
+  const p=a.getAttribute('href').split(/[?#]/)[0];
   const routes=['/','/services','/work','/contact','/privacy','/terms'];
   if(!routes.includes(p)) bad.push(a.getAttribute('href'));
 });
@@ -48,3 +48,4 @@ console.log('footer->privacy:',main().dataset.route);
 console.log('main focusable after nav:',main().getAttribute('tabindex'));
 console.log('activeElement is main:',doc.activeElement===main());
 console.log('ERRORS:',errs.length?errs.slice(0,2):'none');
+process.exit(errs.length ? 1 : 0);

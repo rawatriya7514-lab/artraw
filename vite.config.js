@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  base: '/artraw-website/',
+  base: '/artraw/',
   build: {
     outDir: '../dist',
     emptyOutDir: true,

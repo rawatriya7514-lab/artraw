@@ -1,7 +1,7 @@
 {
   "name": "artraw",
   "version": "1.0.0",
-  "description": "ARTRAW — Umesh Kumar | AI • Automation • Creative • Digital Solutions",
+  "description": "ARTRAW — Creative • Digital • Technology | High-performance Android AI, web systems, automation, and cinematic design",
   "type": "module",
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js",
@@ -15,5 +15,9 @@
     "gh-pages": "^6.1.1",
     "jsdom": "^29.1.1",
     "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27"
   }
 }

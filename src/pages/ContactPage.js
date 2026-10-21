@@ -1,3 +1,5 @@
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getIcon } from '../utils/icons.js';
 import {
   enquiryCategories,
@@ -12,6 +14,8 @@ import {
   CONTACT_READY
 } from '../data/contact.js';
 import { getServiceById } from '../data/services.js';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MAX_REFERENCE_BYTES = 8 * 1024 * 1024;
 
@@ -109,27 +113,27 @@ export function createContactPage() {
 
   section.innerHTML = `
     <div class="container">
-      <header class="section-header reveal">
-        <span class="section-label">Work with me</span>
-        <h1 id="contact-page-title" class="section-title">Build Something Different.</h1>
-        <p class="section-description">
+      <header class="contact-hero reveal">
+        <span class="contact-kicker reveal">Work with me</span>
+        <h1 id="contact-page-title" class="contact-title reveal">Build Something Different.</h1>
+        <p class="contact-description reveal">
           Pick a service, describe what you need, and send a structured brief. This is an enquiry,
           not a contract — nothing is submitted anywhere until you review it and press send.
         </p>
       </header>
 
-      <section class="brief-steps reveal reveal-delay-1" aria-label="How the brief works">
+      <section class="brief-steps cinematic-brief-steps reveal" aria-label="How the brief works">
         ${['Choose a category', 'Add the details', 'Review and send'].map((label, index) => `
-          <div class="brief-step">
-            <span class="brief-step-num">0${index + 1}</span>
+          <div class="brief-step cinematic-brief-step">
+            <span class="brief-step-num">${String(index + 1).padStart(2, '0')}</span>
             <span class="brief-step-label">${label}</span>
           </div>
         `).join('')}
       </section>
 
-      <div class="quick-categories reveal reveal-delay-1" role="group" aria-label="Quick categories">
+      <div class="quick-categories cinematic-quick-categories reveal" role="group" aria-label="Quick categories">
         ${enquiryCategories.map(cat => `
-          <button type="button" class="quick-chip" data-quick-category="${cat.id}">
+          <button type="button" class="quick-chip cinematic-quick-chip" data-quick-category="${cat.id}">
             ${getIcon(cat.icon)}
             <span>${escapeHtml(cat.label)}</span>
           </button>
@@ -137,14 +141,14 @@ export function createContactPage() {
       </div>
 
       <div class="contact-layout">
-        <form class="contact-form reveal" id="contact-form" novalidate>
+        <form class="cinematic-contact-form reveal" id="contact-form" novalidate>
           <div class="form-row">
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="name">Name <span class="required-mark">*</span></label>
               <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name">
               <span class="field-error" aria-live="polite"></span>
             </div>
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="phone">Phone / WhatsApp <span class="required-mark">*</span></label>
               <input id="phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+91 98XXX XXXXX">
               <span class="field-error" aria-live="polite"></span>
@@ -152,12 +156,12 @@ export function createContactPage() {
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="email">Email <span class="required-mark">*</span></label>
               <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@email.com">
               <span class="field-error" aria-live="polite"></span>
             </div>
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="business">Business / Brand</label>
               <input id="business" name="business" type="text" autocomplete="organization" placeholder="Optional — your business name">
               <span class="field-error" aria-live="polite"></span>
@@ -165,17 +169,17 @@ export function createContactPage() {
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="category">Service category <span class="required-mark">*</span></label>
-              <select id="category" name="category" required>
+              <select id="category" name="category" required class="cinematic-select">
                 <option value="">Select a service area</option>
                 ${enquiryCategories.map(cat => `<option value="${cat.id}">${escapeHtml(cat.label)}</option>`).join('')}
               </select>
               <span class="field-error" aria-live="polite"></span>
             </div>
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="service">Specific service <span class="required-mark">*</span></label>
-              <select id="service" name="service" required disabled>
+              <select id="service" name="service" required disabled class="cinematic-select">
                 <option value="">Select a category first</option>
               </select>
               <span class="field-error" aria-live="polite"></span>
@@ -187,7 +191,7 @@ export function createContactPage() {
             <span>${escapeHtml(assistanceNotice)}</span>
           </p>
 
-          <div class="form-group">
+          <div class="cinematic-form-group">
             <label for="description">Project description <span class="required-mark">*</span></label>
             <textarea id="description" name="description" required rows="6" placeholder="What are you trying to achieve? What already exists, and what should the finished work do?"></textarea>
             <span class="field-hint">The more specific, the more useful the reply.</span>
@@ -195,17 +199,17 @@ export function createContactPage() {
           </div>
 
           <div class="form-row">
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="budget">Budget <span class="optional-mark">Optional</span></label>
-              <select id="budget" name="budget">
+              <select id="budget" name="budget" class="cinematic-select">
                 <option value="">Prefer not to say</option>
                 ${projectBudgets.map(b => `<option value="${b.label}">${escapeHtml(b.label)}</option>`).join('')}
               </select>
               <span class="field-error" aria-live="polite"></span>
             </div>
-            <div class="form-group">
+            <div class="cinematic-form-group">
               <label for="deadline">Deadline <span class="optional-mark">Optional</span></label>
-              <select id="deadline" name="deadline">
+              <select id="deadline" name="deadline" class="cinematic-select">
                 <option value="">No fixed deadline</option>
                 ${deadlineOptions.map(d => `<option value="${d.label}">${escapeHtml(d.label)}</option>`).join('')}
               </select>
@@ -213,16 +217,16 @@ export function createContactPage() {
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="cinematic-form-group">
             <label for="reference">Reference file <span class="optional-mark">Optional</span></label>
-            <div class="file-drop" id="file-drop">
+            <div class="cinematic-file-drop" id="cinematic-file-drop">
               <input id="reference" name="reference" type="file" class="file-input"
                      accept="image/*,application/pdf,.doc,.docx,.txt,.zip">
-              <label for="reference" class="file-label">
+              <label for="reference" class="cinematic-file-label">
                 ${getIcon('upload')}
                 <span id="file-name">Attach a reference — image, PDF, or document (max 8 MB)</span>
               </label>
-              <button type="button" class="file-clear" id="file-clear" hidden aria-label="Remove attached file">
+              <button type="button" class="cinematic-file-clear" id="file-clear" hidden aria-label="Remove attached file">
                 ${getIcon('close')}
               </button>
             </div>
@@ -230,13 +234,13 @@ export function createContactPage() {
             <span class="field-error" aria-live="polite"></span>
           </div>
 
-          <label class="check-row">
+          <label class="check-row cinematic-check-row">
             <input type="checkbox" id="consent" name="consent" required>
             <span>I understand this is an enquiry, not a contract, and that my details are used only to reply. See the <a href="/privacy" data-route="true">privacy note</a>.</span>
           </label>
           <span class="field-error" id="consent-error" aria-live="polite"></span>
 
-          <div class="form-actions">
+          <div class="form-actions cinematic-form-actions">
             <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
               Review my brief ${getIcon('arrowRight')}
             </button>
@@ -245,45 +249,50 @@ export function createContactPage() {
           <p class="form-status" id="form-status" role="status" hidden></p>
         </form>
 
-        <aside class="contact-aside reveal">
-          <div class="aside-block">
+        <aside class="contact-aside cinematic-contact-aside reveal">
+          <div class="cinematic-aside-block">
             <h2>Before you write</h2>
-            <ul class="aside-list">
+            <ul class="cinematic-aside-list">
               <li>${escapeHtml(strip(disclaimers.government))}</li>
               <li>${escapeHtml(strip(disclaimers.noGuarantee))}</li>
               <li>${escapeHtml(strip(disclaimers.platforms))}</li>
             </ul>
           </div>
 
-          <div class="aside-block">
+          <div class="cinematic-aside-block">
             <h2>Working details</h2>
-            <dl class="aside-details">
+            <dl class="aside-details cinematic-aside-details">
               <div>
                 <dt>Email</dt>
-                <dd>${CONTACT_READY
-                  ? `<a href="mailto:${escapeHtml(contactConfig.email)}">${escapeHtml(contactConfig.email)}</a>`
-                  : '<span class="pending-value">Not set yet</span>'}</dd>
+                <dd><a href="mailto:${escapeHtml(contactConfig.email)}">${escapeHtml(contactConfig.email)}</a></dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd><a href="tel:${escapeHtml(contactConfig.phoneRaw)}">${escapeHtml(contactConfig.phone)}</a></dd>
               </div>
               <div>
                 <dt>WhatsApp</dt>
-                <dd>${contactConfig.whatsapp
-                  ? escapeHtml(contactConfig.whatsapp)
-                  : '<span class="pending-value">Not set yet</span>'}</dd>
+                <dd><a href="https://wa.me/${escapeHtml(contactConfig.whatsappRaw)}" target="_blank" rel="noopener noreferrer">${escapeHtml(contactConfig.whatsapp)}</a></dd>
               </div>
               <div><dt>Based in</dt><dd>${escapeHtml(contactConfig.location)}</dd></div>
               <div><dt>Timezone</dt><dd>${escapeHtml(contactConfig.timezone)}</dd></div>
             </dl>
-            ${CONTACT_READY ? '' : `
-              <p class="aside-note">
-                Contact details are not configured on this build, so the form cannot send anything.
-                Use <strong>Copy brief</strong> and send it from your own mail app.
-              </p>
-            `}
+            <div class="aside-social-strip" style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a href="${escapeHtml(contactConfig.social.github)}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+                ${getIcon('github')} GitHub
+              </a>
+              <a href="https://wa.me/${escapeHtml(contactConfig.whatsappRaw)}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">
+                WhatsApp Chat
+              </a>
+            </div>
+            <p class="aside-note cinematic-aside-note" style="margin-top: 1rem; font-size: 0.78rem; color: var(--color-fg-muted);">
+              Direct line: <strong>${escapeHtml(contactConfig.phone)}</strong> · Ready for select high-speed builds.
+            </p>
           </div>
         </aside>
       </div>
 
-      <section class="faq-section reveal" aria-labelledby="faq-title">
+      <section class="faq-section cinematic-faq-section reveal" aria-labelledby="faq-title">
         <header class="section-header">
           <span class="section-label">Questions</span>
           <h2 id="faq-title" class="section-title">Services, explained honestly</h2>
@@ -291,12 +300,12 @@ export function createContactPage() {
             What ARTRAW does, what it does not do, and what happens after you send a brief.
           </p>
         </header>
-        <div class="faq-groups">
+        <div class="cinematic-faq-groups">
           ${faqs.map(group => `
-            <section class="faq-group">
-              <h3 class="faq-group-title">${escapeHtml(group.category)}</h3>
+            <section class="cinematic-faq-group">
+              <h3 class="cinematic-faq-group-title">${escapeHtml(group.category)}</h3>
               ${group.questions.map(q => `
-                <details class="faq-item">
+                <details class="cinematic-faq-item">
                   <summary>${escapeHtml(q.q)}</summary>
                   <div class="faq-answer">${escapeHtml(strip(q.a))}</div>
                 </details>
@@ -307,14 +316,14 @@ export function createContactPage() {
       </section>
     </div>
 
-    <div class="brief-review-overlay" id="brief-review" role="dialog" aria-modal="true" aria-labelledby="brief-review-title" hidden>
-      <div class="brief-review-panel">
-        <button type="button" class="modal-close" id="brief-review-close" aria-label="Close review">${getIcon('close')}</button>
+    <div class="cinematic-review-overlay" id="brief-review" role="dialog" aria-modal="true" aria-labelledby="brief-review-title" hidden>
+      <div class="cinematic-review-panel">
+        <button type="button" class="modal-close cinematic-modal-close" id="brief-review-close" aria-label="Close review">${getIcon('close')}</button>
         <h2 id="brief-review-title" class="brief-review-title">${escapeHtml(enquiryStatusNotice.title)}</h2>
         <p class="brief-review-body">${escapeHtml(CONTACT_READY
           ? enquiryStatusNotice.body
           : 'Nothing was sent anywhere. Contact details are not configured on this build, so copy the brief below and send it from your own mail app.')}</p>
-        <pre class="brief-preview" id="brief-preview" tabindex="0" aria-label="Your brief"></pre>
+        <pre class="brief-preview cinematic-brief-preview" id="brief-preview" tabindex="0" aria-label="Your brief"></pre>
         <div class="brief-review-actions">
           ${CONTACT_READY ? '<button type="button" class="btn btn-primary" id="brief-send">Open in email app</button>' : ''}
           <button type="button" class="btn ${CONTACT_READY ? 'btn-ghost' : 'btn-primary'} btn-copy-lead" id="brief-copy">Copy brief</button>
@@ -342,7 +351,7 @@ export function initContactPage(page) {
   const quickChips = page.querySelectorAll('[data-quick-category]');
   const fileInput = form.querySelector('#reference');
   const fileName = page.querySelector('#file-name');
-  const fileClear = page.querySelector('#file-clear');
+  const fileClear = page.querySelector('#file-clear') || page.querySelector('.cinematic-file-clear');
 
   const reviewOverlay = page.querySelector('#brief-review');
   const reviewClose = page.querySelector('#brief-review-close');
@@ -357,7 +366,7 @@ export function initContactPage(page) {
   let lastFocusedEl = null;
 
   function fieldErrorEl(field) {
-    const group = field.closest('.form-group') || field.parentElement;
+    const group = field.closest('.cinematic-form-group') || field.parentElement;
     return group.querySelector('.field-error') || (field.id === 'consent' ? consentError : null);
   }
 
@@ -622,7 +631,7 @@ export function initContactPage(page) {
   form.querySelector('#consent').addEventListener('change', e => clearError(e.currentTarget));
   quickChips.forEach(chip => chip.addEventListener('click', onQuickChip));
   fileInput.addEventListener('change', onFileChange);
-  fileClear.addEventListener('click', onFileClear);
+  fileClear?.addEventListener('click', onFileClear);
   form.addEventListener('submit', onSubmit);
   reviewClose.addEventListener('click', closeReview);
   reviewOverlay.addEventListener('click', e => { if (e.target === reviewOverlay) closeReview(); });
@@ -631,6 +640,37 @@ export function initContactPage(page) {
   document.addEventListener('keydown', onReviewKeydown);
 
   prefillFromQuery();
+
+  // Page-entry reveal
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const revealEls = [
+      page.querySelector('.contact-hero'),
+      page.querySelector('.cinematic-brief-steps'),
+      page.querySelector('.cinematic-quick-categories'),
+      page.querySelector('.contact-form'),
+      page.querySelector('.cinematic-contact-aside'),
+    ].filter(Boolean);
+    gsap.set(revealEls, { opacity: 0, y: 25 });
+    gsap.to(revealEls, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power2.out',
+    });
+  }
+
+  // Quick-chip hover scale
+  quickChips.forEach((chip) => {
+    const onEnter = () => gsap.to(chip, { scale: 1.03, duration: 0.2, ease: 'power2.out' });
+    const onLeave = () => gsap.to(chip, { scale: 1, duration: 0.2, ease: 'power2.out' });
+    chip.addEventListener('mouseenter', onEnter);
+    chip.addEventListener('mouseleave', onLeave);
+    chip._cleanup = () => {
+      chip.removeEventListener('mouseenter', onEnter);
+      chip.removeEventListener('mouseleave', onLeave);
+    };
+  });
 
   return {
     destroy() {
@@ -641,8 +681,11 @@ export function initContactPage(page) {
       reviewSend?.removeEventListener('click', onSend);
       reviewCopy.removeEventListener('click', onCopy);
       fileInput.removeEventListener('change', onFileChange);
-      fileClear.removeEventListener('click', onFileClear);
-      quickChips.forEach(chip => chip.removeEventListener('click', onQuickChip));
+      fileClear?.removeEventListener('click', onFileClear);
+      quickChips.forEach((chip) => {
+        chip.removeEventListener('click', onQuickChip);
+        chip._cleanup?.();
+      });
       document.body.style.overflow = '';
     }
   };

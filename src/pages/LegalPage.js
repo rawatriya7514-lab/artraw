@@ -19,7 +19,7 @@ const pages = {
 export function createLegalPage(id) {
   const page = pages[id] || pages.privacy;
   const section = document.createElement('section');
-  section.className = 'section legal-page';
+  section.className = 'legal-page';
   section.innerHTML = `
     <div class="container legal-copy">
       <p class="section-label">ARTRAW</p>
