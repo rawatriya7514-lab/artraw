@@ -219,28 +219,6 @@ export const workProjects = [
     }
   },
   {
-    id: 'zafiro',
-    title: 'Zafiro',
-    mark: 'ZF',
-    category: 'Creative Technology',
-    tagline: 'A creative-technology direction inside the ARTRAW practice.',
-    summary: 'Zafiro is tracked as an ARTRAW creative-technology project exploring canvas visual systems, procedural geometry, and kinetic interactive animations.',
-    built: [
-      'Project identity within ARTRAW',
-      'Creative-technology scope for canvas and visual systems',
-      'Fluid typography and motion micro-interactions'
-    ],
-    stack: ['Web', 'Creative coding', 'Canvas API', 'GSAP'],
-    statusLabel: 'In progress',
-    accent: 'magenta',
-    icon: 'sparkles',
-    aspect: 'landscape',
-    image: '/assets/images/poster-zafiro.svg',
-    poster: '/assets/images/poster-zafiro.svg',
-    banner: '/assets/images/poster-zafiro.svg',
-    links: {}
-  },
-  {
     id: 'artraw-site',
     title: 'ARTRAW',
     mark: 'AR',

@@ -17,7 +17,7 @@ export function createWorkPage() {
         <span class="work-kicker reveal">Selected work</span>
         <h1 id="work-page-title" class="work-title reveal">Projects</h1>
         <p class="work-description reveal">
-          Lucy AI, ARTRAW OS, Artfiles, OpenClaw / OmniRoute, HF RECORD, RAMART Store, Ayur Veda Global, and Zafiro.
+          Lucy AI, ARTRAW OS, Artfiles, OpenClaw / OmniRoute, HF RECORD, RAMART Store, and Ayur Veda Global.
           Authentic systems and codebases built in this practice.
         </p>
       </header>

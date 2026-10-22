@@ -1,12 +1,11 @@
 /**
  * ARTRAW — Pinned 3D Scrollytelling & Exploded Layer Inspection (Flagship Projects)
  *
- * Cinematic scroll choreography for all 5 core projects:
+ * Cinematic scroll choreography for all 4 core projects:
  * 1. Lucy AI (Technical Flagship: 3D perspective rotation + exploded floating layers)
  * 2. OpenClaw / OmniRoute (Technical Flagship: 3D perspective routing matrix + exploded substrate)
- * 3. Zafiro (Creative Technology: Parallax generative visualizer & kinetic typography)
- * 4. Ayur Veda Global (E-Commerce: Next.js storefront architecture & layered catalog mockups)
- * 5. HF RECORD (Music Creative: Visual release direction & audio wave visualizer)
+ * 3. Ayur Veda Global (E-Commerce: Next.js storefront architecture & layered catalog mockups)
+ * 4. HF RECORD (Music Creative: Visual release direction & audio wave visualizer)
  *
  * Runs at 60fps on both PC (Lenis + GSAP scrub) and Android Mobile (native touch + GPU reveals).
  */
@@ -21,7 +20,7 @@ import { scrollTo } from '../utils/scroll.js';
 gsap.registerPlugin(ScrollTrigger);
 
 // Core flagship projects strictly preserved
-const FLAGSHIP_IDS = ['lucy-ai', 'openclaw-omniroute', 'artraw-os', 'zafiro', 'ayurveda', 'hf-record'];
+const FLAGSHIP_IDS = ['lucy-ai', 'openclaw-omniroute', 'artraw-os', 'ayur-veda-global', 'hf-record'];
 const FLAGSHIP_PROJECTS = FLAGSHIP_IDS.map(id => workProjects.find(p => p.id === id)).filter(Boolean);
 
 export function createFlagshipScene() {
@@ -67,8 +66,8 @@ export function createFlagshipScene() {
                 'artraw-os': 'Qualcomm 8-Core · Linux 5.15 · Termux zsh',
                 'artraw-files': 'Kotlin Native · SDK 36 · AAPT2 / D8 / R8',
                 'openclaw-omniroute': 'Node Daemon · openclaw-ctl · Model Routing',
-                'zafiro': 'WebGL / Canvas API · Procedural Geometry · GSAP',
-                'ayurveda': 'Next.js 14 SSR · React Server Components · Tailwind',
+                
+                'ayur-veda-global': 'Next.js 14 SSR · React Server Components · Tailwind',
                 'hf-record': 'Audio DSP · Waveform Visualizer · Editorial Packaging'
               };
               const substrateCode = substrateMap[project.id] || 'ARTRAW Core Substrate';
@@ -114,7 +113,7 @@ export function createFlagshipScene() {
                           </div>
                         </div>
                       ` : `
-                        <!-- High-Impact Creative Poster Stage for Zafiro / Ayurveda / HF RECORD -->
+                        <!-- High-Impact Creative Poster Stage for Ayur Veda Global / HF RECORD -->
                         <div class="creative-stage" data-project="${project.id}" data-aspect="${project.aspect || 'landscape'}">
                           <div class="creative-poster-card" data-aspect="${project.aspect || 'landscape'}">
                             <div class="creative-poster-frame" data-aspect="${project.aspect || 'landscape'}">

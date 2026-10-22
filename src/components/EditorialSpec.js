@@ -113,7 +113,6 @@ export function createEditorialSpec() {
             <ul class="spec-list">
               <li><strong>HF RECORD:</strong> Official distressed metallic insignia, crimson skull, and release visuals</li>
               <li><strong>ARTRAW Editz Studio:</strong> 8-stage cyberpunk creative pipeline ("Art Is My Code")</li>
-              <li><strong>Zafiro:</strong> Creative technology experiments for interactive canvas and GL shaders</li>
             </ul>
           </div>
           <div class="spec-col-footer">
