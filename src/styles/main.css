@@ -5365,7 +5365,7 @@ select:focus-visible {
    pop). These overrides give the progressive real-motion reveal. */
 .reveal {
   opacity: 0;
-  transform: translateY(34px);
+  transform: translateY(44px);
   transition:
     opacity 0.85s var(--ease-lux),
     transform 0.85s var(--ease-lux);
@@ -5380,6 +5380,15 @@ select:focus-visible {
   padding-bottom: 0.08em; /* keep descenders (y, g, p) from clipping */
 }
 .fx-word { display: inline-block; will-change: transform; }
+
+/* 101.2 Parallax + living-poster layers (GPU hints) */
+[data-parallax] { will-change: transform; }
+.project-visual-wrap img,
+.creative-poster-thumb-wrap img,
+.creative-card-poster-wrap img {
+  will-change: transform;
+  backface-visibility: hidden;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .fx-word { transform: none !important; }

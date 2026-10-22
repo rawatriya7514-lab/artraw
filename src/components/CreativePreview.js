@@ -22,7 +22,7 @@ export function createCreativePreview() {
     <div class="container">
       <header class="creative-header reveal">
         <span class="creative-label reveal" data-scramble>Creative / technology</span>
-        <h2 id="creative-title" class="creative-title reveal" data-words>How the work shows up</h2>
+        <h2 id="creative-title" class="creative-title reveal" data-words data-parallax="0.12"How the work shows up</h2>
         <p class="creative-description reveal">
           Directions tied to real ARTRAW projects. Visuals here are original marks for those
           projects — not stock case studies and not unpublished client campaigns.

@@ -49,7 +49,7 @@ export function createServicesPage() {
     <div class="container">
       <header class="services-hero reveal">
         <span class="services-kicker reveal">Services</span>
-        <h1 id="services-page-title" class="services-title reveal" data-words>Services Catalog</h1>
+        <h1 id="services-page-title" class="services-title reveal" data-words data-parallax="0.08"Services Catalog</h1>
         <p class="services-description reveal">
           ${totalServices} services across ${serviceCategories.length} categories. Search or filter to narrow
           the list—each service covers description, what ARTRAW helps with, what you provide, and what you receive.

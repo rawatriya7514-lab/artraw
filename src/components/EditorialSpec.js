@@ -33,7 +33,7 @@ export function createEditorialSpec() {
 
         <h2 id="spec-title" class="spec-headline">
           Engineered For The Edge. <br />
-          <span class="spec-serif-italic">Crafted For The Screen.</span>
+          <span class="spec-serif-italic" data-parallax="0.1">Crafted For The Screen.</span>
         </h2>
 
         <p class="spec-lead-summary">

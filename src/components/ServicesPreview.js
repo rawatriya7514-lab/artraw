@@ -39,7 +39,7 @@ export function createServicesPreview() {
           <span class="pill-dot"></span>
           <span>CAPABILITIES & DISCIPLINE</span>
         </div>
-        <h2 id="services-title" class="service-title reveal" data-words>What ARTRAW Builds</h2>
+        <h2 id="services-title" class="service-title reveal" data-words data-parallax="0.1"What ARTRAW Builds</h2>
         <p class="service-description reveal">
           From autonomous mobile AI systems to award-winning creative direction.
           Explore capabilities designed for high performance.

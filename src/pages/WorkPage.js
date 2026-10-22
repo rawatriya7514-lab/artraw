@@ -15,7 +15,7 @@ export function createWorkPage() {
     <div class="container">
       <header class="work-hero reveal">
         <span class="work-kicker reveal">Selected work</span>
-        <h1 id="work-page-title" class="work-title reveal" data-words>Projects</h1>
+        <h1 id="work-page-title" class="work-title reveal" data-words data-parallax="0.08"Projects</h1>
         <p class="work-description reveal">
           Lucy AI, ARTRAW OS, Artfiles, OpenClaw / OmniRoute, HF RECORD, RAMART Store, and Ayur Veda Global.
           Authentic systems and codebases built in this practice.

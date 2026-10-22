@@ -25,7 +25,7 @@ export function createWorkPreview() {
     <div class="container">
       <header class="gallery-header reveal">
         <span class="gallery-label reveal" data-scramble>Selected projects</span>
-        <h2 id="work-title" class="gallery-title reveal" data-words>Work that exists</h2>
+        <h2 id="work-title" class="gallery-title reveal" data-words data-parallax="0.12"Work that exists</h2>
         <p class="gallery-description reveal">
           Real projects from this practice. Status is stated as it is — no invented clients,
           launch numbers, or testimonials.
@@ -35,7 +35,7 @@ export function createWorkPreview() {
       <div class="gallery-grid" role="list" aria-label="Selected projects" data-stagger-reveal>
         ${featured.map((project) => `
           <article class="gallery-item reveal" role="listitem" data-accent="${project.accent}">
-            <div class="project-visual-wrap" data-aspect="${project.aspect || 'landscape'}">
+            <div class="project-visual-wrap" data-reveal-clip data-aspect="${project.aspect || 'landscape'}">
               <div class="project-poster-wrapper" data-aspect="${project.aspect || 'landscape'}">
                 <img src="${asset(project.image)}" alt="${project.title} Architectural Poster" class="project-card-poster" loading="lazy" decoding="async" width="${project.aspect === 'portrait' ? 600 : project.aspect === 'landscape' ? 800 : 600}" height="${project.aspect === 'portrait' ? 800 : project.aspect === 'landscape' ? 600 : 600}" />
                 <div class="project-poster-badge accent-${project.accent}">

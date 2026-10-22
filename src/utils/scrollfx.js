@@ -1,16 +1,20 @@
 /**
- * ARTRAW — Pro-Grade Scroll FX Engine
+ * ARTRAW — Pro-Grade Scroll FX Engine  (v2 — Dribbble/Awwwards reference pass)
  *
- * Research-derived motion system (2026 Awwwards-tier patterns):
- *   1. [data-words]           → masked word-rise headers (Loco/Apple-style kinetic type)
- *   2. [data-reveal-clip]     → clip-path image unveil + inner de-zoom (Codrops gallery reel)
- *   3. [data-parallax="0.2"]  → multi-depth scrub drift (Nike Better World lineage)
- *   4. [data-stagger-reveal]  → cascaded child reveals via transition-delay (progressive reveals)
- *   5. Hero exit choreography → Apple-style soft fade/scale as the hero scrolls out
+ * Patterns distilled from 2026 references (dribbble.com/tags/scrolling-animation
+ * + award-tier sites) and mapped to ARTRAW:
+ *   1. [data-words]           → masked word-rise headers (Lapz/Patagonia kinetic type)
+ *   2. [data-reveal-clip]     → clip-path unveil + de-zoom + CONTINUOUS poster drift
+ *                               (Parallax Coffee-beans LP / Open-article mask reveals)
+ *   3. [data-parallax="0.12"] → scrub drift on headers/decoratives (depth layers)
+ *   4. [data-stagger-reveal]  → cascaded card reveals (SMAT section builds)
+ *   5. Hero exit choreography → hero soft dismissal (DJI/Apple product pages)
+ *   6. Velocity skew          → posters lean with scroll speed ("Addicted to
+ *                               Scrolling" reactive cards; desktop only)
  *
- * Guards: headless/JSDOM + prefers-reduced-motion + touch (lighter parallax).
+ * Guards: headless/JSDOM + prefers-reduced-motion + touch (lighter drift, no skew).
  * Every effect animates ONLY transform/opacity/clip-path (GPU-safe).
- * Returns a destroy() killer that reverts its own DOM mutations.
+ * destroy() reverts its own DOM mutations.
  */
 
 import { gsap } from 'gsap';
@@ -25,8 +29,11 @@ export function initScrollFX(root = document) {
   }
 
   const isTouch = window.matchMedia('(hover: none)').matches;
-  const strength = isTouch ? 0.45 : 1; // lighter drift on touch, same choreography
+  const strength = isTouch ? 0.5 : 1; // lighter drift on touch, same choreography
   const killAll = [];
+  const driftImgs = [];
+  let tickerFn = null;
+
   const addKill = (anim) => killAll.push(() => {
     anim.scrollTrigger && anim.scrollTrigger.kill();
     anim.kill();
@@ -40,7 +47,7 @@ export function initScrollFX(root = document) {
     el.dataset.fxBound = '1';
     el.setAttribute('aria-label', text);
     el.classList.add('fx-words');
-    if (el.classList.contains('reveal')) el.classList.add('visible'); // mask takes over
+    if (el.classList.contains('reveal')) el.classList.add('visible'); // the mask takes over
     el.innerHTML = text.split(/\s+/).map((word) =>
       `<span class="fx-word-mask" aria-hidden="true"><span class="fx-word">${word}</span></span>`
     ).join(' ');
@@ -48,55 +55,73 @@ export function initScrollFX(root = document) {
     gsap.set(words, { yPercent: 125 });
     addKill(gsap.to(words, {
       yPercent: 0,
-      duration: 0.95,
+      duration: 1.0,
       ease: 'power4.out',
-      stagger: 0.06,
-      scrollTrigger: { trigger: el, start: 'top 86%', once: true },
+      stagger: 0.065,
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     }));
+    killAll.push(() => { el.textContent = text; delete el.dataset.fxBound; });
   });
 
-  /* ---------- 2. Clip-path image unveil ---------- */
+  /* ---------- 2. Clip unveil + living poster drift ---------- */
   root.querySelectorAll('[data-reveal-clip]').forEach((wrap) => {
     if (wrap.dataset.fxBound) return;
     wrap.dataset.fxBound = '1';
     const img = wrap.querySelector('img');
     if (!img) return;
     if (img.complete && img.naturalWidth === 0) return; // broken img — skip
+    wrap.style.overflow = 'hidden';
+
     const clipTween = gsap.fromTo(wrap,
       { clipPath: 'inset(0% 0% 100% 0%)' },
       {
         clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1.05,
+        duration: 1.1,
         ease: 'power2.inOut',
         scrollTrigger: { trigger: wrap, start: 'top 88%', once: true },
-        onComplete: () => {
-          wrap.style.clipPath = '';
-          ScrollTrigger.refresh();
+        onComplete: () => { wrap.style.clipPath = ''; },
+      }
+    );
+    // settle at a 1.14 base scale so the drift never shows hard edges
+    const scaleTween = gsap.fromTo(img,
+      { scale: 1.24 },
+      { scale: 1.14, duration: 1.35, ease: 'power2.out',
+        scrollTrigger: { trigger: wrap, start: 'top 88%', once: true } }
+    );
+    // continuous depth drift — the poster lags the page like a parallax layer
+    const drift = gsap.fromTo(img,
+      { yPercent: 7 * strength },
+      {
+        yPercent: -7 * strength,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: wrap,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.7,
+          invalidateOnRefresh: true,
         },
       }
     );
-    const scaleTween = gsap.fromTo(img,
-      { scale: 1.18 },
-      { scale: 1, duration: 1.3, ease: 'power2.out',
-        scrollTrigger: { trigger: wrap, start: 'top 88%', once: true } }
-    );
-    wrap.style.overflow = 'hidden';
+    driftImgs.push(img);
     killAll.push(() => {
       clipTween.scrollTrigger && clipTween.scrollTrigger.kill();
       clipTween.kill();
       scaleTween.scrollTrigger && scaleTween.scrollTrigger.kill();
       scaleTween.kill();
+      drift.scrollTrigger && drift.scrollTrigger.kill();
+      drift.kill();
       wrap.style.clipPath = '';
       wrap.style.overflow = '';
       delete wrap.dataset.fxBound;
     });
   });
 
-  /* ---------- 3. Multi-depth parallax drift ---------- */
-  root.querySelectorAll('[data-parallax]').forEach((el) => {
+  /* ---------- 3. Header/decor parallax depth ---------- */
+  root.querySelectorAll('h2[data-words][data-parallax], h1[data-words][data-parallax], [data-parallax]:not([data-words])').forEach((el) => {
     if (el.dataset.fxBound) return;
     el.dataset.fxBound = '1';
-    const depth = Math.min(Math.abs(parseFloat(el.dataset.parallax) || 0.18), 0.5);
+    const depth = Math.min(Math.abs(parseFloat(el.dataset.parallax) || 0.12), 0.5);
     addKill(gsap.to(el, {
       yPercent: () => -depth * 100 * strength,
       ease: 'none',
@@ -104,10 +129,11 @@ export function initScrollFX(root = document) {
         trigger: el,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: 0.6,
+        scrub: 0.7,
         invalidateOnRefresh: true,
       },
     }));
+    killAll.push(() => { gsap.set(el, { clearProps: 'transform' }); delete el.dataset.fxBound; });
   });
 
   /* ---------- 4. Cascaded continuous reveals ---------- */
@@ -118,27 +144,27 @@ export function initScrollFX(root = document) {
     let delaySeen = false;
     kids.forEach((kid, i) => {
       if (kid.classList.contains('reveal')) {
-        kid.style.transitionDelay = `${Math.min(i * 85, 600)}ms`;
+        kid.style.transitionDelay = `${Math.min(i * 105, 700)}ms`;
         delaySeen = true;
       }
     });
     // fallback for grids whose children aren't .reveal-based
     if (!delaySeen) {
-      gsap.set(kids, { opacity: 0, y: 30 });
+      gsap.set(kids, { opacity: 0, y: 44 });
       addKill(gsap.to(kids, {
         opacity: 1,
         y: 0,
-        duration: 0.75,
-        ease: 'power2.out',
-        stagger: { each: 0.085, grid: 'auto', from: 'start' },
-        scrollTrigger: { trigger: group, start: 'top 85%', once: true },
+        duration: 0.85,
+        ease: 'power3.out',
+        stagger: { each: 0.095, grid: 'auto', from: 'start' },
+        scrollTrigger: { trigger: group, start: 'top 86%', once: true },
       }));
     } else {
       killAll.push(() => kids.forEach((kid) => { kid.style.transitionDelay = ''; }));
     }
   });
 
-  /* ---------- 5. Hero exit choreography (Apple-style soft dismissal) ---------- */
+  /* ---------- 5. Hero exit choreography (Apple/DJI-style dismissal) ---------- */
   const hero = root.querySelector('.hero');
   if (hero && !hero.dataset.fxBound) {
     hero.dataset.fxBound = '1';
@@ -155,9 +181,25 @@ export function initScrollFX(root = document) {
         invalidateOnRefresh: true,
       },
     }));
+    killAll.push(() => { gsap.set(hero, { clearProps: 'all' }); delete hero.dataset.fxBound; });
+  }
+
+  /* ---------- 6. Velocity skew — posters lean with scroll speed (desktop) ---------- */
+  if (!isTouch && driftImgs.length && typeof window.requestAnimationFrame === 'function') {
+    const skewers = driftImgs.map((img) => gsap.quickTo(img, 'skewY', { duration: 0.55, ease: 'power3.out' }));
+    let lastY = window.scrollY || 0;
+    let vel = 0;
+    tickerFn = () => {
+      const y = window.scrollY || window.pageYOffset || 0;
+      vel += ((y - lastY) - vel) * 0.14;
+      lastY = y;
+      const skew = Math.max(-3.2, Math.min(3.2, vel * 0.05));
+      for (const skewTo of skewers) skewTo(skew);
+    };
+    gsap.ticker.add(tickerFn);
     killAll.push(() => {
-      gsap.set(hero, { clearProps: 'all' });
-      delete hero.dataset.fxBound;
+      gsap.ticker.remove(tickerFn);
+      for (const img of driftImgs) gsap.set(img, { skewY: 0 });
     });
   }
 
@@ -165,6 +207,7 @@ export function initScrollFX(root = document) {
     destroy() {
       killAll.forEach((fn) => { try { fn(); } catch { /* already dead */ } });
       killAll.length = 0;
+      driftImgs.length = 0;
     },
   };
 }

@@ -26,7 +26,7 @@ export function createProcess() {
           <span class="pill-dot"></span>
           <span>EXECUTION ROADMAP</span>
         </div>
-        <h2 id="process-title" class="process-title reveal" data-words>How A Project Moves</h2>
+        <h2 id="process-title" class="process-title reveal" data-words data-parallax="0.12">How A Project Moves</h2>
         <p class="process-description reveal">
           From initial discovery to production deployment. Clear milestones, transparent tooling,
           and uncompromising build precision.
