@@ -18,7 +18,7 @@ import { createServicesPage, initServicesPage } from './pages/ServicesPage.js';
 import { createWorkPage, initWorkPage } from './pages/WorkPage.js';
 import { createContactPage, initContactPage } from './pages/ContactPage.js';
 import { createLegalPage } from './pages/LegalPage.js';
-import { observeElementsOnce, prefersReducedMotion } from './utils/helpers.js';
+import { observeElementsOnce, prefersReducedMotion, getMotionPreference } from './utils/helpers.js';
 import { initScroll, scrollTo } from './utils/scroll.js';
 import { initMagnetic } from './utils/magnetic.js';
 import { initLabelScrambles } from './utils/kinetic-text.js';
@@ -82,6 +82,11 @@ function createHomePage() {
 
 function createApp() {
   const app = document.getElementById('app');
+  // Reflect the stored motion choice onto <html> before paint (CSS hooks).
+  try {
+    const motionPref = getMotionPreference();
+    if (motionPref !== 'auto') document.documentElement.dataset.motion = motionPref;
+  } catch { /* jsdom / blocked storage */ }
   const atmosphere = createAtmosphere();
   atmosphereEl = atmosphere;
   app.appendChild(atmosphere);

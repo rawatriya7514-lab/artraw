@@ -1,5 +1,36 @@
 export function prefersReducedMotion() {
+  // User override takes precedence: 'off' = always static, 'full' = always animate
+  // (set from the footer Motion FX toggle). Otherwise honour the OS setting.
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = window.localStorage.getItem('artraw-motion');
+      if (stored === 'off') return true;
+      if (stored === 'full') return false;
+    } catch { /* storage blocked — fall through to media query */ }
+  }
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/**
+ * Current effective motion preference: 'auto' (OS decides), 'full' (forced on),
+ * or 'off' (forced off). Used by the footer Motion FX toggle UI.
+ */
+export function getMotionPreference() {
+  if (typeof window === 'undefined') return 'auto';
+  try {
+    const stored = window.localStorage.getItem('artraw-motion');
+    if (stored === 'full' || stored === 'off') return stored;
+  } catch { /* blocked */ }
+  return 'auto';
+}
+
+/** Persist a motion preference ('auto' clears the override). */
+export function setMotionPreference(pref) {
+  if (typeof window === 'undefined') return;
+  try {
+    if (pref === 'full' || pref === 'off') window.localStorage.setItem('artraw-motion', pref);
+    else window.localStorage.removeItem('artraw-motion');
+  } catch { /* blocked */ }
 }
 
 /**

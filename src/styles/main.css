@@ -5391,5 +5391,39 @@ select:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fx-word { transform: none !important; }
+  html:not([data-motion="full"]) .fx-word { transform: none !important; }
 }
+
+/* 101.3 Masonry card offsets — dribbble-style staggered gallery rhythm */
+@media (min-width: 640px) {
+  .gallery-grid[data-stagger-reveal] > *:nth-child(even) { margin-top: 3.25rem; }
+  .grid-3[data-stagger-reveal] > *:nth-child(3n+2) { margin-top: 2.75rem; }
+  .services-grid[data-stagger-reveal] > *:nth-child(3n+2) { margin-top: 0; }
+}
+
+/* 101.4 Motion FX toggle pill (footer) */
+.motion-fx-toggle {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font: inherit;
+  font-size: var(--fs-xs);
+  color: var(--color-fg-muted);
+  cursor: pointer;
+  transition: color 0.2s var(--ease-lux), border-color 0.2s var(--ease-lux);
+}
+@media (hover: hover) {
+  .motion-fx-toggle:hover { color: var(--color-fg); border-color: var(--color-accent); }
+}
+
+/* 101.5 User motion-override hooks (footer Max/Off) */
+@media (prefers-reduced-motion: reduce) {
+  html[data-motion="full"] .reveal {
+    opacity: 0;
+    transform: translateY(44px);
+    transition: opacity 0.85s var(--ease-lux), transform 0.85s var(--ease-lux);
+  }
+  html[data-motion="full"] .reveal.visible { opacity: 1; transform: none; }
+}
+html[data-motion="off"] .reveal { opacity: 1; transform: none; transition: none; }

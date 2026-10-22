@@ -8,8 +8,15 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { revealOnEnter } from '../utils/scroll.js';
+import { getMotionPreference, setMotionPreference, prefersReducedMotion } from '../utils/helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const MOTION_LABELS = { auto: 'Auto', full: 'Max', off: 'Off' };
+
+function motionToggleLabel() {
+  return `Motion FX: ${MOTION_LABELS[getMotionPreference()] || 'Auto'}`;
+}
 
 export function createFooter() {
   const footer = document.createElement('footer');
@@ -77,6 +84,7 @@ export function createFooter() {
         <ul class="footer-legal">
           <li><a href="/privacy" class="footer-link" data-route="true">Privacy Policy</a></li>
           <li><a href="/terms" class="footer-link" data-route="true">Terms of Service</a></li>
+          <li><button type="button" id="motion-fx-toggle" class="footer-link motion-fx-toggle" title="Animations: Auto = follows your device · Max = always full motion · Off = reduced">${motionToggleLabel()}</button></li>
         </ul>
       </div>
     </div>
@@ -119,7 +127,23 @@ export function initFooter(footer) {
     if (t.trigger && footer.contains(t.trigger)) t.kill();
   });
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ---- Motion FX preference toggle (Auto → Max → Off → Auto) ----
+  const fxToggle = footer.querySelector('#motion-fx-toggle');
+  const onFxToggleClick = () => {
+    const current = getMotionPreference();
+    const next = current === 'auto' ? 'full' : current === 'full' ? 'off' : 'auto';
+    setMotionPreference(next);
+    try {
+      if (next !== 'auto') document.documentElement.dataset.motion = next;
+      else delete document.documentElement.dataset.motion;
+    } catch { /* nothing */ }
+    fxToggle.textContent = `Motion FX: ${MOTION_LABELS[next]}`;
+    // Reload so every controller re-reads the preference from a clean slate.
+    window.location.reload();
+  };
+  if (fxToggle) fxToggle.addEventListener('click', onFxToggleClick);
+
+  const prefersReduced = prefersReducedMotion();
   let killReveal = () => {};
 
   if (!prefersReduced) {
@@ -134,6 +158,7 @@ export function initFooter(footer) {
   return {
     destroy() {
       if (clockInterval) clearInterval(clockInterval);
+      if (fxToggle) fxToggle.removeEventListener('click', onFxToggleClick);
       killReveal();
       ScrollTrigger.getAll().forEach((t) => {
         if (t.trigger && footer.contains(t.trigger)) t.kill();

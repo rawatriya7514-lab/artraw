@@ -29,7 +29,7 @@ export function initScrollFX(root = document) {
   }
 
   const isTouch = window.matchMedia('(hover: none)').matches;
-  const strength = isTouch ? 0.5 : 1; // lighter drift on touch, same choreography
+  const strength = isTouch ? 0.85 : 1; // bold drift on touch too, not timid
   const killAll = [];
   const driftImgs = [];
   let tickerFn = null;
@@ -184,8 +184,10 @@ export function initScrollFX(root = document) {
     killAll.push(() => { gsap.set(hero, { clearProps: 'all' }); delete hero.dataset.fxBound; });
   }
 
-  /* ---------- 6. Velocity skew — posters lean with scroll speed (desktop) ---------- */
-  if (!isTouch && driftImgs.length && typeof window.requestAnimationFrame === 'function') {
+  /* ---------- 6. Velocity skew — posters lean with scroll speed ---------- */
+  if (driftImgs.length && typeof window.requestAnimationFrame === 'function') {
+    const skewClamp = isTouch ? 2.2 : 3.2; // mobile gets lean too, just gentler
+    const skewFactor = isTouch ? 0.035 : 0.05;
     const skewers = driftImgs.map((img) => gsap.quickTo(img, 'skewY', { duration: 0.55, ease: 'power3.out' }));
     let lastY = window.scrollY || 0;
     let vel = 0;
@@ -193,7 +195,7 @@ export function initScrollFX(root = document) {
       const y = window.scrollY || window.pageYOffset || 0;
       vel += ((y - lastY) - vel) * 0.14;
       lastY = y;
-      const skew = Math.max(-3.2, Math.min(3.2, vel * 0.05));
+      const skew = Math.max(-skewClamp, Math.min(skewClamp, vel * skewFactor));
       for (const skewTo of skewers) skewTo(skew);
     };
     gsap.ticker.add(tickerFn);
