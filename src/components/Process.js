@@ -26,7 +26,7 @@ export function createProcess() {
           <span class="pill-dot"></span>
           <span>EXECUTION ROADMAP</span>
         </div>
-        <h2 id="process-title" class="process-title reveal">How A Project Moves</h2>
+        <h2 id="process-title" class="process-title reveal" data-words>How A Project Moves</h2>
         <p class="process-description reveal">
           From initial discovery to production deployment. Clear milestones, transparent tooling,
           and uncompromising build precision.
@@ -39,7 +39,7 @@ export function createProcess() {
           <div class="process-beam-fill" id="process-beam-fill"></div>
         </div>
 
-        <ol class="process-steps" role="list" aria-label="Project process steps">
+        <ol class="process-steps" role="list" aria-label="Project process steps" data-stagger-reveal>
           ${howIWorkSteps.map((step) => `
             <li class="process-step reveal" data-step="${step.number}">
               <div class="step-marker-box">

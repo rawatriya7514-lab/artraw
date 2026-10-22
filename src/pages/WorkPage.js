@@ -15,7 +15,7 @@ export function createWorkPage() {
     <div class="container">
       <header class="work-hero reveal">
         <span class="work-kicker reveal">Selected work</span>
-        <h1 id="work-page-title" class="work-title reveal">Projects</h1>
+        <h1 id="work-page-title" class="work-title reveal" data-words>Projects</h1>
         <p class="work-description reveal">
           Lucy AI, ARTRAW OS, Artfiles, OpenClaw / OmniRoute, HF RECORD, RAMART Store, and Ayur Veda Global.
           Authentic systems and codebases built in this practice.
@@ -28,12 +28,12 @@ export function createWorkPage() {
 
       <header class="section-header reveal" id="creative-work">
         <span class="section-label reveal">Creative / technology</span>
-        <h2 class="section-title reveal">Studio notes</h2>
+        <h2 class="section-title reveal" data-words>Studio notes</h2>
       </header>
-      <div class="grid grid-3">
+      <div class="grid grid-3" data-stagger-reveal>
         ${creativeWorks.map(work => `
           <article class="card reveal cinematic-card" data-accent="${work.accent}">
-            <div class="creative-card-poster-wrap">
+            <div class="creative-card-poster-wrap" data-reveal-clip>
               <img src="${asset(work.image)}" alt="${work.title} Artwork" class="creative-card-poster-img" loading="lazy" decoding="async" width="${work.aspect === 'portrait' ? 600 : work.aspect === 'landscape' ? 800 : 600}" height="${work.aspect === 'portrait' ? 800 : work.aspect === 'landscape' ? 600 : 600}" />
             </div>
             <div class="card-content">
@@ -47,7 +47,7 @@ export function createWorkPage() {
 
       <header class="section-header reveal" id="how-i-work">
         <span class="section-label reveal">Process</span>
-        <h2 class="section-title reveal">How I work</h2>
+        <h2 class="section-title reveal" data-words>How I work</h2>
       </header>
       <ol class="process-grid cinematic-process">
         ${howIWorkSteps.map(step => `

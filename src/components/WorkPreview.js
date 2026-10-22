@@ -25,14 +25,14 @@ export function createWorkPreview() {
     <div class="container">
       <header class="gallery-header reveal">
         <span class="gallery-label reveal" data-scramble>Selected projects</span>
-        <h2 id="work-title" class="gallery-title reveal">Work that exists</h2>
+        <h2 id="work-title" class="gallery-title reveal" data-words>Work that exists</h2>
         <p class="gallery-description reveal">
           Real projects from this practice. Status is stated as it is — no invented clients,
           launch numbers, or testimonials.
         </p>
       </header>
 
-      <div class="gallery-grid" role="list" aria-label="Selected projects">
+      <div class="gallery-grid" role="list" aria-label="Selected projects" data-stagger-reveal>
         ${featured.map((project) => `
           <article class="gallery-item reveal" role="listitem" data-accent="${project.accent}">
             <div class="project-visual-wrap" data-aspect="${project.aspect || 'landscape'}">

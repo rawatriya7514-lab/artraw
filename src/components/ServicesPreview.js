@@ -39,14 +39,14 @@ export function createServicesPreview() {
           <span class="pill-dot"></span>
           <span>CAPABILITIES & DISCIPLINE</span>
         </div>
-        <h2 id="services-title" class="service-title reveal">What ARTRAW Builds</h2>
+        <h2 id="services-title" class="service-title reveal" data-words>What ARTRAW Builds</h2>
         <p class="service-description reveal">
           From autonomous mobile AI systems to award-winning creative direction.
           Explore capabilities designed for high performance.
         </p>
       </header>
 
-      <div class="service-grid" role="list" aria-label="Service preview">
+      <div class="service-grid" role="list" aria-label="Service preview" data-stagger-reveal>
         ${services.map((service, index) => `
           <article class="service-item reveal" role="listitem" data-index="${index}">
             <div class="service-item-glass">

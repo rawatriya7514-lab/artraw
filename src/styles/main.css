@@ -5354,3 +5354,33 @@ select:focus-visible {
 @media (hover: none) {
   .btn::before { display: none; }
 }
+
+/* ==========================================================================
+   101 · SCROLL FX ENGINE SUPPORT
+   Research-derived pro patterns (Apple-style hero dismissal, Codrops clip
+   reveals, Locomotive-style staggered grids, kinetic headers).
+   ========================================================================== */
+
+/* 101.0 FOUNDATION FIX — the base .reveal had a 0.01ms transition (instant
+   pop). These overrides give the progressive real-motion reveal. */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.85s var(--ease-lux),
+    transform 0.85s var(--ease-lux);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* 101.1 Masked word-rise headers */
+.fx-word-mask {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em; /* keep descenders (y, g, p) from clipping */
+}
+.fx-word { display: inline-block; will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-word { transform: none !important; }
+}

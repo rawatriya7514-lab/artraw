@@ -27,7 +27,7 @@ export function createSkills() {
         </p>
       </header>
 
-      <div class="skills-list" role="list" aria-label="Skill groups">
+      <div class="skills-list" role="list" aria-label="Skill groups" data-stagger-reveal>
         ${skillGroups.map((group) => `
           <article class="skills-group reveal" role="listitem">
             <div class="skills-group-head">

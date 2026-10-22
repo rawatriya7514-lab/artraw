@@ -115,7 +115,7 @@ export function createContactPage() {
     <div class="container">
       <header class="contact-hero reveal">
         <span class="contact-kicker reveal">Work with me</span>
-        <h1 id="contact-page-title" class="contact-title reveal">Build Something Different.</h1>
+        <h1 id="contact-page-title" class="contact-title reveal" data-words>Build Something Different.</h1>
         <p class="contact-description reveal">
           Pick a service, describe what you need, and send a structured brief. This is an enquiry,
           not a contract — nothing is submitted anywhere until you review it and press send.
@@ -300,7 +300,7 @@ export function createContactPage() {
             What ARTRAW does, what it does not do, and what happens after you send a brief.
           </p>
         </header>
-        <div class="cinematic-faq-groups">
+        <div class="cinematic-faq-groups" data-stagger-reveal>
           ${faqs.map(group => `
             <section class="cinematic-faq-group">
               <h3 class="cinematic-faq-group-title">${escapeHtml(group.category)}</h3>

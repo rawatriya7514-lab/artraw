@@ -23,7 +23,7 @@ export function createEditorialSpec() {
     <!-- Anchor link compatibility for #about -->
     <div id="about" style="position: absolute; top: -80px;"></div>
 
-    <div class="spec-container">
+    <div class="spec-container" data-stagger-reveal>
       <!-- Section Header -->
       <header class="spec-header reveal">
         <div class="spec-kicker-tag">

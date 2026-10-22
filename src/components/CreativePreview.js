@@ -22,17 +22,17 @@ export function createCreativePreview() {
     <div class="container">
       <header class="creative-header reveal">
         <span class="creative-label reveal" data-scramble>Creative / technology</span>
-        <h2 id="creative-title" class="creative-title reveal">How the work shows up</h2>
+        <h2 id="creative-title" class="creative-title reveal" data-words>How the work shows up</h2>
         <p class="creative-description reveal">
           Directions tied to real ARTRAW projects. Visuals here are original marks for those
           projects — not stock case studies and not unpublished client campaigns.
         </p>
       </header>
 
-      <div class="creative-grid" role="list" aria-label="Creative works">
+      <div class="creative-grid" role="list" aria-label="Creative works" data-stagger-reveal>
         ${creativeWorks.map((work) => `
           <article class="creative-item reveal" role="listitem" data-accent="${work.accent}">
-            <div class="creative-poster-thumb-wrap">
+            <div class="creative-poster-thumb-wrap" data-reveal-clip>
               <img src="${asset(work.image)}" alt="${work.title} Visual Poster" class="creative-poster-thumb-img" loading="lazy" decoding="async" width="${work.aspect === 'portrait' ? 600 : work.aspect === 'landscape' ? 800 : 600}" height="${work.aspect === 'portrait' ? 800 : work.aspect === 'landscape' ? 600 : 600}" />
               <div class="creative-thumb-overlay"></div>
               <span class="creative-mark-badge">${work.mark}</span>

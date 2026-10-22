@@ -23,6 +23,7 @@ import { initScroll, scrollTo } from './utils/scroll.js';
 import { initMagnetic } from './utils/magnetic.js';
 import { initLabelScrambles } from './utils/kinetic-text.js';
 import { createRouteTransition, runRouteTransition, canAnimateRoutes } from './utils/transition.js';
+import { initScrollFX } from './utils/scrollfx.js';
 import {
   createPreloader,
   initPreloader,
@@ -57,6 +58,7 @@ let contactCtrl = null;
 let scrambleKill = null;
 let routeFXEl = null;
 let navInFlight = null;
+let scrollfxCtrl = null;
 let atmosphereEl = null;
 let atmosphereCtrl = null;
 
@@ -104,6 +106,8 @@ function createApp() {
 }
 
 function destroyRouteControllers() {
+  scrollfxCtrl?.destroy?.();
+  scrollfxCtrl = null;
   pageController?.destroy?.();
   specCtrl?.destroy?.();
   tickerCtrl?.destroy?.();
@@ -193,6 +197,11 @@ function navigate(route, replace = false, searchOverride = null) {
 
     setActiveNav(route);
     syncMeta(route);
+
+    // Pro scroll FX pass — after all route controllers are wired, so triggers
+    // see the final layout. Bound to the freshly rendered viewport content.
+    scrollfxCtrl?.destroy?.();
+    scrollfxCtrl = initScrollFX(main);
 
     // Announce the new page to assistive tech without stealing focus on first load.
     if (!replace) {
@@ -411,6 +420,7 @@ function init() {
   if (window.location.hash) requestAnimationFrame(() => scrollToHash(window.location.hash));
   window.addEventListener('beforeunload', () => {
     navController?.destroy();
+    scrollfxCtrl?.destroy?.();
     atmosphereCtrl?.destroy?.();    pageController?.destroy?.();
     specCtrl?.destroy?.();
     flagshipCtrl?.destroy?.();

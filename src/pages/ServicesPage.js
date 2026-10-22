@@ -49,7 +49,7 @@ export function createServicesPage() {
     <div class="container">
       <header class="services-hero reveal">
         <span class="services-kicker reveal">Services</span>
-        <h1 id="services-page-title" class="services-title reveal">Services Catalog</h1>
+        <h1 id="services-page-title" class="services-title reveal" data-words>Services Catalog</h1>
         <p class="services-description reveal">
           ${totalServices} services across ${serviceCategories.length} categories. Search or filter to narrow
           the list—each service covers description, what ARTRAW helps with, what you provide, and what you receive.
@@ -404,7 +404,7 @@ export function initServicesPage(pageElement) {
     if (currentView === 'grid') {
       const shown = services.slice(0, visibleLimit);
       return { html: `
-        <div class="services-grid" role="list" aria-label="Services">
+        <div class="services-grid" role="list" aria-label="Services" data-stagger-reveal>
           ${shown.map((svc, i) => `<div role="listitem">${serviceCard(svc, i)}</div>`).join('')}
         </div>
       `, shown: shown.length, expand: null };
