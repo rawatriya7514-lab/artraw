@@ -109,6 +109,7 @@ function findServiceOption(category, serviceId, serviceTitle) {
 export function createContactPage() {
   const section = document.createElement('section');
   section.className = 'contact-page section';
+  section.setAttribute('data-progress-line', '');
   section.setAttribute('aria-labelledby', 'contact-page-title');
 
   section.innerHTML = `
@@ -116,7 +117,7 @@ export function createContactPage() {
       <header class="contact-hero reveal">
         <span class="contact-kicker reveal">Work with me</span>
         <h1 id="contact-page-title" class="contact-title reveal" data-words data-parallax="0.08"Build Something Different.</h1>
-        <p class="contact-description reveal">
+        <p class="contact-description reveal" data-scrub-words>
           Pick a service, describe what you need, and send a structured brief. This is an enquiry,
           not a contract — nothing is submitted anywhere until you review it and press send.
         </p>

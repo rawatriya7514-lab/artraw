@@ -205,6 +205,57 @@ export function initScrollFX(root = document) {
     });
   }
 
+  /* ---------- 6. Word-by-word scrub narration (gsap.com signature) ---------- */
+  root.querySelectorAll('[data-scrub-words]').forEach((el) => {
+    if (el.dataset.fxBound) return;
+    el.dataset.fxBound = '1';
+    const text = (el.textContent || '').trim();
+    if (!text || text.length > 460) return; // narration paragraphs only
+    if (el.classList.contains('reveal')) el.classList.add('visible'); // words own the reveal
+    el.setAttribute('aria-label', text);
+    el.classList.add('fx-scrub-words');
+    el.innerHTML = text.split(/\s+/).map((w) =>
+      `<span class="fx-scrub-word" aria-hidden="true">${w}</span>`
+    ).join(' ');
+    const spans = el.querySelectorAll('.fx-scrub-word');
+    gsap.set(spans, { opacity: 0.14 });
+    addKill(gsap.to(spans, {
+      opacity: 1,
+      ease: 'none',
+      stagger: 0.4,
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 80%',
+        end: 'bottom 50%',
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+      },
+    }));
+    killAll.push(() => { el.textContent = text; delete el.dataset.fxBound; });
+  });
+
+  /* ---------- 7. Section progress rails (Pin-Scrub language, gsap.com style) ---------- */
+  root.querySelectorAll('[data-progress-line]').forEach((section) => {
+    if (section.dataset.fxBound || !section.insertAdjacentElement) return;
+    section.dataset.fxBound = '1';
+    const line = document.createElement('span');
+    line.className = 'fx-progress-line';
+    line.setAttribute('aria-hidden', 'true');
+    section.prepend(line);
+    addKill(gsap.fromTo(line, { scaleX: 0 }, {
+      scaleX: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 72%',
+        end: 'bottom 48%',
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+      },
+    }));
+    killAll.push(() => { line.remove(); delete section.dataset.fxBound; });
+  });
+
   return {
     destroy() {
       killAll.forEach((fn) => { try { fn(); } catch { /* already dead */ } });

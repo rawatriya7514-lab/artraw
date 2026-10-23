@@ -16,6 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createProcess() {
   const section = document.createElement('section');
   section.className = 'section process-line';
+  section.setAttribute('data-progress-line', '');
   section.id = 'process';
   section.setAttribute('aria-labelledby', 'process-title');
 

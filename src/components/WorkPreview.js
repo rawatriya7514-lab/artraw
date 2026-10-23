@@ -16,6 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createWorkPreview() {
   const section = document.createElement('section');
   section.className = 'section portfolio-gallery';
+  section.setAttribute('data-progress-line', '');
   section.id = 'work';
   section.setAttribute('aria-labelledby', 'work-title');
 

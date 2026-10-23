@@ -40,6 +40,7 @@ function truncate(text, limit) {
 export function createServicesPage() {
   const section = document.createElement('section');
   section.className = 'services-page cinematic-page';
+  section.setAttribute('data-progress-line', '');
   section.id = 'services-page';
   section.setAttribute('aria-labelledby', 'services-page-title');
 
@@ -50,7 +51,7 @@ export function createServicesPage() {
       <header class="services-hero reveal">
         <span class="services-kicker reveal">Services</span>
         <h1 id="services-page-title" class="services-title reveal" data-words data-parallax="0.08"Services Catalog</h1>
-        <p class="services-description reveal">
+        <p class="services-description reveal" data-scrub-words>
           ${totalServices} services across ${serviceCategories.length} categories. Search or filter to narrow
           the list—each service covers description, what ARTRAW helps with, what you provide, and what you receive.
         </p>

@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createCreativePreview() {
   const section = document.createElement('section');
   section.className = 'section creative-preview';
+  section.setAttribute('data-progress-line', '');
   section.id = 'creative';
   section.setAttribute('aria-labelledby', 'creative-title');
 

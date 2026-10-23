@@ -5427,3 +5427,23 @@ select:focus-visible {
   html[data-motion="full"] .reveal.visible { opacity: 1; transform: none; }
 }
 html[data-motion="off"] .reveal { opacity: 1; transform: none; transition: none; }
+
+/* 101.6 gsap.com-style word scrub narration */
+.fx-scrub-word { display: inline-block; will-change: opacity; }
+
+/* 101.7 Section progress rails — thin scroll-linked fill bars */
+[data-progress-line] { position: relative; }
+.fx-progress-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--color-accent, #7c8cff), rgba(124, 140, 255, 0.05));
+  z-index: 2;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) .fx-progress-line { transform: scaleX(1); }
+}

@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createWorkPage() {
   const section = document.createElement('section');
   section.className = 'work-page cinematic-page';
+  section.setAttribute('data-progress-line', '');
   section.setAttribute('aria-labelledby', 'work-page-title');
 
   section.innerHTML = `
@@ -16,7 +17,7 @@ export function createWorkPage() {
       <header class="work-hero reveal">
         <span class="work-kicker reveal">Selected work</span>
         <h1 id="work-page-title" class="work-title reveal" data-words data-parallax="0.08"Projects</h1>
-        <p class="work-description reveal">
+        <p class="work-description reveal" data-scrub-words>
           Lucy AI, ARTRAW OS, Artfiles, OpenClaw / OmniRoute, HF RECORD, RAMART Store, and Ayur Veda Global.
           Authentic systems and codebases built in this practice.
         </p>

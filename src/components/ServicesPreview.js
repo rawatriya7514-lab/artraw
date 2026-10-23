@@ -29,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createServicesPreview() {
   const section = document.createElement('section');
   section.className = 'section services-preview';
+  section.setAttribute('data-progress-line', '');
   section.id = 'services';
   section.setAttribute('aria-labelledby', 'services-title');
 

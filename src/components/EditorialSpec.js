@@ -16,6 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 export function createEditorialSpec() {
   const section = document.createElement('section');
   section.className = 'section editorial-spec-section';
+  section.setAttribute('data-progress-line', '');
   section.id = 'spec-section';
   section.setAttribute('aria-labelledby', 'spec-title');
 
