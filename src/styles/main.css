@@ -826,7 +826,7 @@ h1.display-serif, h2.display-serif {
 
 .title-sans {
   font-family: var(--font-display);
-  font-size: clamp(3.6rem, 11vw, 9rem);
+  font-size: clamp(2.7rem, 7.4vw, 6rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.6) 100%);
@@ -839,7 +839,7 @@ h1.display-serif, h2.display-serif {
   font-family: var(--font-editorial);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.9rem, 5.2vw, 4.25rem);
+  font-size: clamp(1.45rem, 3.7vw, 3.1rem);
   color: #ff1e42;
   text-shadow: 0 0 35px rgba(255, 30, 66, 0.35);
   letter-spacing: -0.02em;
